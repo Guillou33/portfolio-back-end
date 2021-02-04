@@ -1,17 +1,22 @@
-const { getCommentaries, create } = require('../models/commentary');
+const { getCommentaries, create, deleteOne } = require('../models/commentary');
 
 module.exports.handlePost = async (req, res) => {
-    const {nomCompetence, niveau} = req.body;
-    const data = await create({ nomCompetence, niveau });
+    const {texteCommentaire, auteurCommentaire} = req.body;
+    const data = await create({ texteCommentaire, auteurCommentaire});
     return res.status(201).send(data);
 }
 
 module.exports.getCommentaries = async (req, res) => {
     const rawData = await getCommentaries();
-    res.send(rawData.map((s) => ({
-        idCompetence: s.idCompetence,
-        nomCompetence: s.nomCompetence,
-        niveau:  s.niveau,
+    res.send(rawData.map((comm) => ({
+        idCommentaire: comm.idCommentaire,
+        nomCommentaire: comm.nomCommentaire,
+        auteurCommentaire:  comm.auteurCommentaire,
       }))
     );
+}
+
+module.exports.delete = async (req, res) => {
+  const data = await deleteOne( req.params.id );
+  return res.status(201).send(data);
 }

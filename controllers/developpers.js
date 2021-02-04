@@ -1,17 +1,20 @@
-const { getDeveloppers, create } = require('../models/developper');
+const { verifyPassword, findByEmail, findOne } = require('../models/developper');
 
-module.exports.handlePost = async (req, res) => {
-    const {nomCompetence, niveau} = req.body;
-    const data = await create({ nomCompetence, niveau });
-    return res.status(201).send(data);
+module.exports.findOne = async (req, res) => {
+  res.send(await findOne(1));
 }
 
-module.exports.getDeveloppers = async (req, res) => {
-    const rawData = await getDeveloppers();
-    res.send(rawData.map((s) => ({
-        idCompetence: s.idCompetence,
-        nomCompetence: s.nomCompetence,
-        niveau:  s.niveau,
-      }))
-    );
-}
+module.exports.login = async (req, res) => {
+  const dev = await findByEmail(req.body.loginAdmin, false);
+  if (dev && (await verifyPassword(dev, req.body.passwordAdmin))) {
+    res.sendStatus(200);
+    // console.log(dev.idAdmin);
+    // req.session.idAdmin = dev.idAdmin;
+    // req.session.save((err) => {
+    //   if (err) return res.sendStatus(500);
+    //   return res.send(200);
+    // });
+  } else {
+    res.sendStatus(401);
+  }
+};
