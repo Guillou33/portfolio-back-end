@@ -1,4 +1,4 @@
-const { getProjects, create, update, findOne, deleteOne } = require('../models/project');
+const { getProjects, create, update, findOne, deleteOne, findOneByClient } = require('../models/project');
 
 module.exports.handlePost = async (req, res) => {
     const {nomProjet, urlApp, descriptifProjet, idClient} = req.body;
@@ -28,6 +28,12 @@ const newAttributes = req.body;
 const data = await update( req.params.id, newAttributes);
 return res.status(201).send(data);
 }
+module.exports.updateClient = async (req, res) => {
+  const { nomSociete } = req.body;
+  const newIdClient = await findOneByClient(nomSociete);
+  const data = await update( req.params.id, newIdClient);
+  return res.status(201).send(data);
+  }
 
 module.exports.delete = async (req, res) => {
 const data = await deleteOne( req.params.id );

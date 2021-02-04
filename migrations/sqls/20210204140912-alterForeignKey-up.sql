@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `Projet` (
   `urlApp` VARCHAR(128) NULL,
   `idClient` INT,
   PRIMARY KEY (`idProjet`),
-  FOREIGN KEY (`idClient`) REFERENCES `Client` (`idClient`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`idClient`) REFERENCES `Client` (`idClient`) ON DELETE SET NULL ON UPDATE CASCADE
 )ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `Competence_has_Projet` (
@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS `Competence_has_Projet` (
   PRIMARY KEY (`idCompetenceProject`),
   FOREIGN KEY (`idCompetence`)
     REFERENCES `Competence` (`idCompetence`)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE CASCADE,
   FOREIGN KEY (`idProjet`)
     REFERENCES `Projet` (`idProjet`)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE CASCADE
 )ENGINE = InnoDB;

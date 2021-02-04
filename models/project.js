@@ -11,6 +11,14 @@ const findOne = async (id, failIfNotFound = true) => {
     if (failIfNotFound) throw new RecordNotFoundError('Projet', id);
     return null;
 }
+const findOneByClient = async (nomSociete, failIfNotFound = true) => {
+    const rows = await db.query(`SELECT idClient FROM Client WHERE nomSociete = ?`, [nomSociete]);
+    if (rows.length) {
+      return rows[0];
+    }
+    if (failIfNotFound) throw new RecordNotFoundError('Client', nomSociete);
+    return null;
+}
 
 const getProjects = () => {
     return db.query(`Select p.*, c.nomSociete from Projet p LEFT JOIN Client c ON p.idClient = c.idClient`);
@@ -46,5 +54,6 @@ module.exports = {
     getProjects,
     update,
     deleteOne,
-    findOne
+    findOne,
+    findOneByClient
 }
