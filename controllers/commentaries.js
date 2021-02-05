@@ -10,7 +10,7 @@ module.exports.getCommentaries = async (req, res) => {
     const rawData = await getCommentaries();
     res.send(rawData.map((comm) => ({
         idCommentaire: comm.idCommentaire,
-        nomCommentaire: comm.nomCommentaire,
+        texteCommentaire: comm.texteCommentaire,
         auteurCommentaire:  comm.auteurCommentaire,
       }))
     );
